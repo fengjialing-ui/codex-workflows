@@ -1,0 +1,14 @@
+# Temporary working files
+work/
+
+# Local operating-system files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key

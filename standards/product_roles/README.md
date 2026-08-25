@@ -2,6 +2,14 @@
 
 每个产品使用独立目录保存当前知识库、白皮书和可核验来源；输入格式遵循 `PRODUCT_CATALOG_SCHEMA.md`。历史产品资料可作为候选来源，但必须标明核验状态和日期，不能自动成为文章事实。
 
+## 当前产品目录
+
+| Product | Directory | Primary object | Current evidence state |
+| --- | --- | --- | --- |
+| WatermarkGemini | `watermarkgemini/` | image | verified / MVP boundary recorded |
+| HitPaw VikPea | `hitpaw-vikpea/` | video | partially_verified; dynamic fields require fresh official verification |
+| HitPaw FotorPea | `hitpaw-fotorpea/` | image | partially_verified; dynamic fields require fresh official verification |
+
 ## 路由
 
 1. 先读取 `PRODUCT_CATALOG_SCHEMA.md` 与任务中指定产品的目录。

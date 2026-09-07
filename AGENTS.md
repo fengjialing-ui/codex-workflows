@@ -2,6 +2,8 @@
 
 本仓库是内容生产的正式标准库。执行任何内容生成、改稿、SEO 或竞品分析任务前，必须先遵守本文件。
 
+当前执行版本和阶段依赖以 `workflow.json` 为准；先阅读 `EXECUTION.md`，使用 `tools/workflow_state.py` 初始化与记录本次任务。统一发布检查器为 `tools/validate_article_package.py`；PowerShell 入口保留为跨版本兼容包装。
+
 ## 开始任务
 
 1. 阅读 `brief.md` 与 `STATUS.md`，确认本次任务、已有资料和当前进度。
@@ -16,14 +18,14 @@
 5. 使用具体产品时，还必须阅读该产品目录下的当前知识库和使用白皮书。
 6. `01` 至 `05` 是保留旧路径的融合版正式入口；执行时仍以 `08` 的路由和对应 Type Module 为先。
 7. `standards/06-How-to流程问题归因与升级说明_v1.md` 仅解释迁移背景，不能作为执行规则。
-8. 新文章的 `publish_ready` 必须阅读并执行 `standards/13-新文章生成终稿闭环_v1.md` 与 `standards/11-可执行发布闸门与文件一致性_v1.md`；先做发布能力预检，再完成正文、真实视觉、最终 Word、页面渲染和检查器。`10-发布级Article-Review工作流_v1.md` 仅在用户明确要求独立回审/编辑复核，或任务属于旧文优化时使用。完成前先运行 `tools/Test-ArticlePublishReady.ps1`，再运行 `tools/Test-PublishReadyPackage.ps1`，将命令、输出和最终 DOCX SHA-256 写入 QA 报告。
+8. 新文章的 `publish_ready` 必须阅读并执行 `standards/13-新文章生成终稿闭环_v1.md` 与 `standards/11-可执行发布闸门与文件一致性_v1.md`；先做发布能力预检，再完成正文、真实视觉、最终 Word、页面渲染和检查器。`10-发布级Article-Review工作流_v1.md` 仅在用户明确要求独立回审/编辑复核，或任务属于旧文优化时使用。完成前运行 `python tools/validate_article_package.py --package RUN_DIR`，将命令、输出和最终 DOCX SHA-256 写入 QA 报告。
 9. 输入包含已有文章且用户要求优化、回审或 SEO 提升时，还必须阅读并执行 `standards/12-旧文回审与终稿交付保障_v1.md`；默认是 `optimization`，只有用户明确批准才可重写。
 
 ## 执行规则
 
 - 当前批准的文章类型仅限 How-to、Top 评测、VS、泛主题、Alternatives 与 What Is & Specs；其他类型必须先新增并批准对应的 Type Module。
 - 先完成调研、搜索意图和方案决策，再确定文章结构与正文；不得预设 Methods 数量、顺序或产品位置。
-- 产品必须先按 `formal_method`、`ultra_tip` 或 `excluded` 判定；不得在正文完成后追加广告段落。
+- 产品必须先按 `08` 中与文章类型匹配的产品角色判定；不得在正文完成后追加广告段落。
 - 未核验的产品事实、参数、价格、案例、结果或来源，不得写成确定事实。
 - 不满足标准中的阻断条件时，停止交付并说明缺失资料或需要返工的环节。
 - 用户要求“完整交付”“终稿”“最终版”或“可发布”时，必须使用 `publish_ready`；缺少 `00-交付契约与发布级验收_v1.md` 的任何 P0 证据时，状态必须为 `BLOCKED — Not Publish Ready`，不得使用 FINAL 命名。
@@ -47,4 +49,3 @@
 ## 换电脑后
 
 打开仓库后，先阅读本文件、`brief.md`、`STATUS.md` 和标准库索引，再继续工作。
-

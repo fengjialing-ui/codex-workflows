@@ -1,0 +1,42 @@
+{
+  "result": "pending",
+  "reviewer_type": "",
+  "reviewed_by": "",
+  "checks": {
+    "intent": {
+      "result": "pending",
+      "finding": "",
+      "evidence": ""
+    },
+    "structure": {
+      "result": "pending",
+      "finding": "",
+      "evidence": ""
+    },
+    "keyword_naturalness": {
+      "result": "pending",
+      "finding": "",
+      "evidence": ""
+    },
+    "product_truth": {
+      "result": "pending",
+      "finding": "",
+      "evidence": ""
+    },
+    "sources": {
+      "result": "pending",
+      "finding": "",
+      "evidence": ""
+    },
+    "visual_quality": {
+      "result": "pending",
+      "finding": "",
+      "evidence": ""
+    },
+    "document_quality": {
+      "result": "pending",
+      "finding": "",
+      "evidence": ""
+    }
+  }
+}

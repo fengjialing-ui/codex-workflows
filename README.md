@@ -1,5 +1,7 @@
 # Codex Workflows
 
+当前执行版本：**3.1.0**。版本以 `workflow.json` 为准；入口见 `START_HERE.md`。本次升级记录见 `RELEASE_NOTES.md`。
+
 这是一个用于跨电脑继续 Codex 工作的私有工作区。当前支持 How-to、Top 评测、VS、泛主题、Alternatives 与 What Is & Specs 的新建文章生成；所有任务先受 `standards/00-交付契约与发布级验收_v1.md` 管理。
 
 ## 使用方法
@@ -8,7 +10,7 @@
 2. 明确选择 `complete_draft` 或 `publish_ready`。用户说“完整交付/终稿/可发布”时必须选择 `publish_ready`。
 3. 让 Codex 读取 `AGENTS.md`、`brief.md`、`STATUS.md` 和交付契约后先输出任务启动卡；缺项必须先确认，不能自行推测。
 4. 系统按 `standards/08-多类型文章调度与共享标准_v1.md` 路由到对应模块。
-5. 新文章 `publish_ready` 必须执行 `standards/13-新文章生成终稿闭环_v1.md` 与 `standards/11-可执行发布闸门与文件一致性_v1.md`：在文章生成流程内直接完成真实视觉、最终 Word、等价性和渲染。`10-发布级Article-Review工作流_v1.md` 只用于用户明确要求的独立回审或旧文优化。先运行 `tools/Test-ArticlePublishReady.ps1`，再运行 `tools/Test-PublishReadyPackage.ps1`；只有两者输出 `PASS — Publish Ready`、且渲染记录哈希匹配 `06_完整文章.docx` 后，才可生成 ZIP、输出到 `outputs/` 并标为 Final。
+5. 新文章 `publish_ready` 必须执行 `standards/13-新文章生成终稿闭环_v1.md` 与 `standards/11-可执行发布闸门与文件一致性_v1.md`：在文章生成流程内直接完成真实视觉、最终 Word、等价性和渲染。`10-发布级Article-Review工作流_v1.md` 只用于用户明确要求的独立回审或旧文优化。运行 `python tools/validate_article_package.py --package RUN_DIR`；只有检查器输出 `PASS — Publish Ready`、且渲染记录哈希匹配 `06_完整文章.docx` 后，才可生成 ZIP、输出到 `outputs/` 并标为 Final。
 6. 更新 `STATUS.md`，然后提交并同步到 GitHub。
 
 ## 旧文回审的默认行为
@@ -27,7 +29,7 @@
 
 ## 示例状态
 
-`examples/how-to-remove-sunlight-glare-from-photo/` 是顶层唯一的当前完整内容包参考，提供实际视觉、最终 Word、标题语义和 QA 记录；真实状态为 `Content Complete — Render QA Blocked`。旧的 `how-to-remove-noise-from-anime-videos/` 已移入 `examples/legacy/`，仅保留作历史结构参考，不能作为发布级通过样例。当前示例只有在具备 DOCX 渲染能力的环境中通过两个发布检查器后，才可升级为 `Publish Ready` 参考终稿。
+`examples/how-to-remove-sunlight-glare-from-photo/` 是顶层唯一的当前完整内容包参考，提供实际视觉、最终 Word、标题语义和 QA 记录；真实状态为 `Content Complete — Render QA Blocked`。旧的 `how-to-remove-noise-from-anime-videos/` 已移入 `examples/legacy/`，仅保留作历史结构参考，不能作为发布级通过样例。当前示例只有在具备 DOCX 渲染能力的环境中通过统一发布检查器后，才可升级为 `Publish Ready` 参考终稿。
 
 ## 发布级的两个关键停点
 

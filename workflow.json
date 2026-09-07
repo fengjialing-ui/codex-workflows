@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "workflow_id": "article-generation",
+  "version": "3.1.0",
+  "bootstrap_files": [
+    "AGENTS.md",
+    "EXECUTION.md",
+    "brief.md",
+    "standards/README.md",
+    "standards/00-交付契约与发布级验收_v1.md",
+    "standards/08-多类型文章调度与共享标准_v1.md"
+  ],
+  "stages": [
+    {
+      "id": "scope",
+      "checks": [
+        "mode-inputs-and-capabilities"
+      ]
+    },
+    {
+      "id": "research",
+      "checks": [
+        "serp-and-intent",
+        "product-route"
+      ]
+    },
+    {
+      "id": "plan",
+      "checks": [
+        "type-structure-and-keywords"
+      ]
+    },
+    {
+      "id": "content",
+      "checks": [
+        "complete-article-and-facts"
+      ]
+    },
+    {
+      "id": "assets",
+      "checks": [
+        "actual-visuals"
+      ]
+    },
+    {
+      "id": "document",
+      "checks": [
+        "word-parity-and-render"
+      ]
+    },
+    {
+      "id": "qa",
+      "checks": [
+        "editorial-and-release-records"
+      ]
+    }
+  ],
+  "contract_fields": [
+    "human_approval_required",
+    "mode",
+    "article_type",
+    "required_visual_sections",
+    "keyword_visibility"
+  ]
+}

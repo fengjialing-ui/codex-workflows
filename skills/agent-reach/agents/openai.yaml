@@ -1,0 +1,6 @@
+interface:
+  display_name: "Agent-Reach Research"
+  short_description: "Collect external research evidence"
+  default_prompt: "Use $agent-reach to gather external evidence for this topic."
+policy:
+  allow_implicit_invocation: false

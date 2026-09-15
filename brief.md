@@ -18,6 +18,19 @@
 - 需要回答的核心问题：
 - 不应覆盖或不应承诺的范围：
 
+## 上游研究包（可选）
+
+> 仅在使用 `article-search-and-outline`、`agent-reach` 或用户提供已有研究材料时填写。它是研究阶段的候选输入，不是事实、类型或产品角色的最终裁决。
+
+- 接入模式：`none` / `topic_and_keywords` / `supplied_package`
+- 主题与关键词表路径：
+- SERP 内容策略简报路径：
+- 文章 Outline 路径：
+- 上游推荐产品（变量，不是 Skill）：
+- 上游研究市场、语言、日期与数据源：
+- 复用规则：`prefill_only — verify_and_refresh`
+- 已知限制、冲突或未覆盖渠道：
+
 ## 可用资料
 
 - 产品事实或知识库：

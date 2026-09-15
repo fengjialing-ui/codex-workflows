@@ -33,6 +33,35 @@ def narrative_count(markdown,source_heading='Sources'):
         lines.append(line)
     return len(text_tokens(markdown_text('\n'.join(lines))))
 
+def markdown_h2s(markdown):
+    """Return normalized H2 headings in source order for structural release checks."""
+    return [match.group(1).strip().casefold()
+            for match in re.finditer(r'^##\s+(.+?)\s*$', markdown, re.M)]
+
+def is_english(language):
+    """Accept normal task-card forms such as English, en-US, or US / English."""
+    value=str(language or '').strip().casefold().replace('_','-')
+    return value in {'english','en','en-us','en-gb'} or value.startswith('english ') or value.endswith('/ english')
+
+def require_how_to_answer_and_conclusion(markdown, headings):
+    """Enforce the non-optional English How-to decision path in Markdown and Word."""
+    errors=[]
+    required=('quick answer','conclusion')
+    markdown_h2=markdown_h2s(markdown)
+    word_h2=[text.strip().casefold() for level,text in headings if level==2]
+    for heading in required:
+        if heading not in markdown_h2:
+            errors.append(f'How-to Markdown lacks required H2: {heading.title()}')
+        if heading not in word_h2:
+            errors.append(f'How-to Word lacks required Heading 2: {heading.title()}')
+    if all(heading in markdown_h2 for heading in (*required,'faq','sources')):
+        if not (markdown_h2.index('quick answer') < markdown_h2.index('faq') < markdown_h2.index('conclusion') < markdown_h2.index('sources')):
+            errors.append('How-to Markdown requires Quick Answer before FAQ and Conclusion between FAQ and Sources')
+    if all(heading in word_h2 for heading in (*required,'faq','sources')):
+        if not (word_h2.index('quick answer') < word_h2.index('faq') < word_h2.index('conclusion') < word_h2.index('sources')):
+            errors.append('How-to Word requires Quick Answer before FAQ and Conclusion between FAQ and Sources')
+    return errors
+
 def validate(package):
     errors=[]; package=Path(package).resolve()
     try:
@@ -65,7 +94,9 @@ def validate(package):
         if qa_heading:
             if qa_heading not in [h for _,h in data['headings']]: errors.append('Declared answer heading is absent')
         elif cfg.get('article_type')=='how_to' and not cfg.get('answer_location'):
-            errors.append('How-to requires a mapped immediate answer, not a fixed English title')
+            errors.append('How-to requires a mapped immediate answer')
+        if cfg.get('article_type')=='how_to' and is_english(cfg.get('language')):
+            errors += require_how_to_answer_and_conclusion(markdown,data['headings'])
         word_count=narrative_count(markdown,cfg.get('source_section_heading','Sources'))
         if cfg.get('validated_narrative_word_count') != word_count: errors.append('Recorded narrative word count differs from actual article')
         bounds=cfg.get('validated_word_range',[])

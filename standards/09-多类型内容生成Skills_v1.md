@@ -4,6 +4,7 @@
 
 | Skill | 输入 | 输出 | 失败即回流 |
 | --- | --- | --- | --- |
+| `Research Package Intake`（可选） | 主题、关键词表、上游 SERP 简报/Outline、推荐产品变量 | 接入清单、复用/刷新/冲突判定、待验证项与正式下游输入 | 把上游结论当作事实、路由或产品角色的替代品 |
 | `Task Router` | 主题、主关键词、用户问题、SERP 线索 | 唯一 article type、理由、边界 | 类型无法判定 |
 | `Keyword & Intent Planner` | 关键词表/主题、市场、语言 | Keyword Map、覆盖状态、主/次意图、排除词 | 关键词没有真实意图或被硬塞 |
 | `Research Passport & SERP Analyst` | 单主题、检索环境 | SERP 前 10、3–5 个正文样本、来源、机会矩阵 | 没有本主题的正文证据 |
@@ -29,5 +30,7 @@
 每个 Skill 均输出：`name`、`version`、`purpose`、`input`、`evidence`、`output`、`checks`、`failure_conditions`、`return_to`。
 
 Skills 只能输出自己确有证据支持的内容。对产品、价格、测试、社区反馈或时间敏感资料，必须附来源和核验日期；没有证据时返回“研究不完整”，而不是补写看似合理的结论。
+
+`Research Package Intake` 可以调用仓库中打包的 `article-search-and-outline`，并且仅在用户明确要求 Agent-Reach 时调用 `agent-reach`。它不能调用、替换或重命名用户的其他 SEO、内容或 GEO Skill；推荐产品永远是任务变量，必须继续经过 `Fact & Product Verifier` 和 Type Module 的角色判定。
 
 `Content Preservation Auditor` 仅用于已有文章的回审；它在任何改写、结构重排、关键词优化或视觉替换之前运行，并输出 `13_内容资产保留审计.md`。它不能以“信息更简洁”为由批准无确认的重写。

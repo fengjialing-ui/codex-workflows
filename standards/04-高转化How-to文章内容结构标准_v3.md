@@ -24,10 +24,12 @@
 7. How to Choose：按 use case 分流
 8. Common Mistakes / Troubleshooting（按需）
 9. FAQ
-10. Verdict：按场景而非单一广告结论给建议
-11. CTA：放在价值、步骤和边界解释之后
+10. Conclusion：按场景给出最终选择建议、真实边界与下一步
+11. CTA：仅在 Conclusion 中自然收束，放在价值、步骤和边界解释之后
 
-文章可因意图删减非核心模块，但不能删除 Quick Answer、主要解决路径、选择逻辑或限制说明而不记录原因。
+英文 How-to 的 `## Quick Answer` 与 `## Conclusion` 是不可删除的独立 H2，不能分别藏进 Introduction、FAQ、产品段落或 Sources。Quick Answer 必须紧随 Introduction，先给出直接答案与选择条件；Conclusion 必须在 FAQ 后、Sources 前，帮助读者按场景完成最后选择，并再次提示不可可靠修复的边界。二者承担不同职责，不得以同一段文字重复替代。
+
+文章可因意图删减非核心模块，但不得删除 Quick Answer、Conclusion、主要解决路径、选择逻辑或限制说明。缺少任一项即不通过 How-to 发布检查。
 
 ## 4. 每个 Method 的最低要求
 

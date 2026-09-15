@@ -1,3 +1,7 @@
+# 3.1.1 — 2026-09-15
+
+保留 `skills/agent-reach/` 与 `skills/article-search-and-outline/` 的独立调用边界，以及 `standards/14-上游研究包接入与预研究Skills_v1.md` 的预填与下游复核机制。新增英文 How-to 的强制 `Quick Answer` 与 `Conclusion` 结构及发布检查；支持 `English`、`en`、`en-US`、`US / English` 的语言字段。
+
 # 3.1.0 — 2026-09-07
 
 统一新文章/旧文路由；类型化产品与配图契约；跨平台 Python 发布检查；完整正文/表格文字/链接核对；阶段状态与渲染证据。

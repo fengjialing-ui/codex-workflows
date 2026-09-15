@@ -15,11 +15,12 @@
    - 一个由文章类型决定的 Type Module（见 `standards/types/README.md`）
    - `standards/05-竞品内容分析标准_v1.md`
    - `standards/product_roles/PRODUCT_CATALOG_SCHEMA.md`（任务提供产品时）
-5. 使用具体产品时，还必须阅读该产品目录下的当前知识库和使用白皮书。
-6. `01` 至 `05` 是保留旧路径的融合版正式入口；执行时仍以 `08` 的路由和对应 Type Module 为先。
-7. `standards/06-How-to流程问题归因与升级说明_v1.md` 仅解释迁移背景，不能作为执行规则。
-8. 新文章的 `publish_ready` 必须阅读并执行 `standards/13-新文章生成终稿闭环_v1.md` 与 `standards/11-可执行发布闸门与文件一致性_v1.md`；先做发布能力预检，再完成正文、真实视觉、最终 Word、页面渲染和检查器。`10-发布级Article-Review工作流_v1.md` 仅在用户明确要求独立回审/编辑复核，或任务属于旧文优化时使用。完成前运行 `python tools/validate_article_package.py --package RUN_DIR`，将命令、输出和最终 DOCX SHA-256 写入 QA 报告。
-9. 输入包含已有文章且用户要求优化、回审或 SEO 提升时，还必须阅读并执行 `standards/12-旧文回审与终稿交付保障_v1.md`；默认是 `optimization`，只有用户明确批准才可重写。
+5. 当任务提供了上游 SERP 简报、文章 Outline、关键词表，或只提供“主题 + 关键词表”并希望先完成研究包时，先阅读 `standards/14-上游研究包接入与预研究Skills_v1.md`。该入口只为现有研究与规划阶段提供可验证的预填资料，不能跳过既有闸门。
+6. 使用具体产品时，还必须阅读该产品目录下的当前知识库和使用白皮书。
+7. `01` 至 `05` 是保留旧路径的融合版正式入口；执行时仍以 `08` 的路由和对应 Type Module 为先。
+8. `standards/06-How-to流程问题归因与升级说明_v1.md` 仅解释迁移背景，不能作为执行规则。
+9. 新文章的 `publish_ready` 必须阅读并执行 `standards/13-新文章生成终稿闭环_v1.md` 与 `standards/11-可执行发布闸门与文件一致性_v1.md`；先做发布能力预检，再完成正文、真实视觉、最终 Word、页面渲染和检查器。`10-发布级Article-Review工作流_v1.md` 仅在用户明确要求独立回审/编辑复核，或任务属于旧文优化时使用。完成前运行 `python tools/validate_article_package.py --package RUN_DIR`，将命令、输出和最终 DOCX SHA-256 写入 QA 报告。
+10. 输入包含已有文章且用户要求优化、回审或 SEO 提升时，还必须阅读并执行 `standards/12-旧文回审与终稿交付保障_v1.md`；默认是 `optimization`，只有用户明确批准才可重写。
 
 ## 执行规则
 

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Article Search and Outline"
+  short_description: "Build a SERP brief and article outline"
+  default_prompt: "Use $article-search-and-outline to build a SERP brief and decision-led outline for this topic."
+policy:
+  allow_implicit_invocation: false

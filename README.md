@@ -1,6 +1,6 @@
 # Codex Workflows
 
-当前执行版本：**3.1.0**。版本以 `workflow.json` 为准；入口见 `START_HERE.md`。本次升级记录见 `RELEASE_NOTES.md`。
+当前执行版本：**3.1.1**。版本以 `workflow.json` 为准；入口见 `START_HERE.md`。本次升级记录见 `RELEASE_NOTES.md`。
 
 这是一个用于跨电脑继续 Codex 工作的私有工作区。当前支持 How-to、Top 评测、VS、泛主题、Alternatives 与 What Is & Specs 的新建文章生成；所有任务先受 `standards/00-交付契约与发布级验收_v1.md` 管理。
 
@@ -12,6 +12,12 @@
 4. 系统按 `standards/08-多类型文章调度与共享标准_v1.md` 路由到对应模块。
 5. 新文章 `publish_ready` 必须执行 `standards/13-新文章生成终稿闭环_v1.md` 与 `standards/11-可执行发布闸门与文件一致性_v1.md`：在文章生成流程内直接完成真实视觉、最终 Word、等价性和渲染。`10-发布级Article-Review工作流_v1.md` 只用于用户明确要求的独立回审或旧文优化。运行 `python tools/validate_article_package.py --package RUN_DIR`；只有检查器输出 `PASS — Publish Ready`、且渲染记录哈希匹配 `06_完整文章.docx` 后，才可生成 ZIP、输出到 `outputs/` 并标为 Final。
 6. 更新 `STATUS.md`，然后提交并同步到 GitHub。
+
+## 独立 Skill 与上游研究包
+
+`skills/article-search-and-outline/` 与 `skills/agent-reach/` 保持为两个独立、可单独调用的 Skill，绝不互相合并或取代文章工作流。前者产出 SERP 内容策略简报与文章 Outline；后者仅在明确要求时采集可合法读取的外部证据。主题＋关键词表或既有研究包进入主流程时，按 `standards/14-上游研究包接入与预研究Skills_v1.md` 作为 `prefill_only → verify_and_refresh` 处理，不能跳过原有类型路由、SERP、事实、产品与发布检查。
+
+英文 How-to 还必须在最终 Markdown 与 Word 中保留独立 `Quick Answer` 和 `Conclusion`：前者紧随 Introduction，后者在 FAQ 后、Sources 前。发布检查器会拦截缺失、降级为普通段落或顺序错误的情况。
 
 ## 旧文回审的默认行为
 

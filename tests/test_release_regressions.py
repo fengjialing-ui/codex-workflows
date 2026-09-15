@@ -21,7 +21,7 @@ def package_fixture(run,article_type='vs'):
     save(run/'editorial-qa.json',qa)
     save(run/'task-contract.json',{'human_approval_required':False,'mode':'new_article','article_type':article_type,'required_visual_sections':[],'keyword_visibility':'not_requested'})
     complete_stages(run,'06_完整文章.md')
-    cfg={'workflow_version':'3.1.0','run_id':'TEST','article_type':article_type,'mode':'new_article','primary_keyword':'Topic','validated_word_range':[1,100],'serp_query':'Topic','serp_market':'US','serp_capture_date':'2026-09-07','product':{'recommended':'none'},'required_visual_sections':[],'no_visuals_scope_reason':'Explicit synthetic fixture scope without visuals','human_approval_required':False}
+    cfg={'workflow_version':json.loads((ROOT/'workflow.json').read_text())['version'],'run_id':'TEST','article_type':article_type,'mode':'new_article','primary_keyword':'Topic','validated_word_range':[1,100],'serp_query':'Topic','serp_market':'US','serp_capture_date':'2026-09-07','product':{'recommended':'none'},'required_visual_sections':[],'no_visuals_scope_reason':'Explicit synthetic fixture scope without visuals','human_approval_required':False}
     if article_type=='how_to': cfg['answer_location']='Opening paragraph'
     cfg['validated_narrative_word_count']=narrative_count(markdown)
     cfg['seo_metadata']={'title':'Topic guide','meta_description':'Understand this topic clearly.','slug':'topic-guide'}
@@ -40,12 +40,20 @@ class ReleaseTests(unittest.TestCase):
     def test_duplicate_ranks_block(self):
         p=self.run/'03_SERP与竞品分析.md';p.write_text(p.read_text().replace('| 10 |','| 1 |'));self.assertFalse(validate(self.run)['publication_ready'])
     def test_required_human_cannot_be_ai(self):
-        p=self.run/'release-manifest.json';cfg=json.loads(p.read_text());cfg['human_approval_required']=True;save(p,cfg);self.assertFalse(validate(self.run)['publication_ready'])
+        p=self.run/'release-manifest.json';cfg=json.loads(p.read_text(encoding='utf-8'));cfg['human_approval_required']=True;save(p,cfg);self.assertFalse(validate(self.run)['publication_ready'])
     def test_stale_render_blocks(self):
         p=self.run/'qa-render.json';cfg=json.loads(p.read_text());cfg['source_docx_sha256']='0'*64;save(p,cfg);self.assertFalse(validate(self.run)['publication_ready'])
     def test_all_article_types_use_their_contract(self):
         for kind in ['how_to','top_evaluation','vs','general_topic','alternatives','what_is_specs']:
             with tempfile.TemporaryDirectory() as tmp:
                 run=Path(tmp);package_fixture(run,kind);self.assertTrue(validate(run)['publication_ready'],validate(run))
+    def test_english_how_to_requires_quick_answer_and_conclusion(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            run=Path(tmp);package_fixture(run,'how_to')
+            p=run/'release-manifest.json';cfg=json.loads(p.read_text(encoding='utf-8'));cfg['language']='US / English';save(p,cfg)
+            result=validate(run)
+            self.assertFalse(result['publication_ready'],result)
+            self.assertIn('How-to Markdown lacks required H2: Quick Answer',result['errors'])
+            self.assertIn('How-to Word lacks required Heading 2: Conclusion',result['errors'])
 
 if __name__=='__main__':unittest.main()

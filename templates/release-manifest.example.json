@@ -1,0 +1,32 @@
+{
+  "workflow_version": "3.1.0",
+  "run_id": "TASK-001",
+  "article_type": "how_to",
+  "mode": "new_article",
+  "primary_keyword": "",
+  "seo_metadata": {
+    "title": "",
+    "meta_description": "",
+    "slug": ""
+  },
+  "validated_word_range": [],
+  "validated_narrative_word_count": 0,
+  "serp_query": "",
+  "serp_market": "",
+  "serp_capture_date": "",
+  "source_section_heading": "Sources",
+  "quick_answer_heading": "",
+  "answer_location": "",
+  "product": {
+    "recommended": "none",
+    "role": "",
+    "resolution": "not_needed",
+    "official_source": "",
+    "verified_date": ""
+  },
+  "required_visual_sections": [],
+  "visuals": [],
+  "human_approval_required": false,
+  "expected_files": [],
+  "keyword_visibility": "not_requested"
+}

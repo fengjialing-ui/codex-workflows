@@ -18,6 +18,8 @@ Required: topic. Optional: keyword table and recommended product. Read market an
 
 Treat a recommended product only as a task variable. Never create, rename or describe it as a Skill. Do not write article body copy, modify a page or run the downstream content workflow.
 
+If the task also names external content or outline example libraries, do not use them in this Skill to choose a type or draft an outline. Record their availability for downstream `Reference Pattern Analyst` review only after current SERP research; examples are not templates or evidence.
+
 ## Research and outline
 
 Research the current accessible SERP, classify organic results by primary page type and identify dominant or mixed intent. Choose the article type from evidence; do not assume every topic is How-to. Keep related but different intents as separate future-article opportunities.

@@ -14,6 +14,12 @@
   "serp_query": "",
   "serp_market": "",
   "serp_capture_date": "",
+  "route_evidence": {
+    "dominant_intent": "",
+    "selected_type_reason": "",
+    "serp_page_type_distribution": "",
+    "rejected_types": ""
+  },
   "source_section_heading": "Sources",
   "quick_answer_heading": "",
   "answer_location": "",

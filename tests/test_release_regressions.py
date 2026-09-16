@@ -21,7 +21,7 @@ def package_fixture(run,article_type='vs'):
     save(run/'editorial-qa.json',qa)
     save(run/'task-contract.json',{'human_approval_required':False,'mode':'new_article','article_type':article_type,'required_visual_sections':[],'keyword_visibility':'not_requested'})
     complete_stages(run,'06_完整文章.md')
-    cfg={'workflow_version':json.loads((ROOT/'workflow.json').read_text())['version'],'run_id':'TEST','article_type':article_type,'mode':'new_article','primary_keyword':'Topic','validated_word_range':[1,100],'serp_query':'Topic','serp_market':'US','serp_capture_date':'2026-09-07','product':{'recommended':'none'},'required_visual_sections':[],'no_visuals_scope_reason':'Explicit synthetic fixture scope without visuals','human_approval_required':False}
+    cfg={'workflow_version':json.loads((ROOT/'workflow.json').read_text())['version'],'run_id':'TEST','article_type':article_type,'mode':'new_article','primary_keyword':'Topic','validated_word_range':[1,100],'serp_query':'Topic','serp_market':'US','serp_capture_date':'2026-09-07','route_evidence':{'dominant_intent':'Synthetic fixture intent','selected_type_reason':'Synthetic route evidence','serp_page_type_distribution':'Article: 10','rejected_types':'Synthetic fixture'},'product':{'recommended':'none'},'required_visual_sections':[],'no_visuals_scope_reason':'Explicit synthetic fixture scope without visuals','human_approval_required':False}
     if article_type=='how_to': cfg['answer_location']='Opening paragraph'
     cfg['validated_narrative_word_count']=narrative_count(markdown)
     cfg['seo_metadata']={'title':'Topic guide','meta_description':'Understand this topic clearly.','slug':'topic-guide'}
@@ -43,6 +43,8 @@ class ReleaseTests(unittest.TestCase):
         p=self.run/'release-manifest.json';cfg=json.loads(p.read_text(encoding='utf-8'));cfg['human_approval_required']=True;save(p,cfg);self.assertFalse(validate(self.run)['publication_ready'])
     def test_stale_render_blocks(self):
         p=self.run/'qa-render.json';cfg=json.loads(p.read_text());cfg['source_docx_sha256']='0'*64;save(p,cfg);self.assertFalse(validate(self.run)['publication_ready'])
+    def test_excluded_product_requires_realtime_verification(self):
+        p=self.run/'release-manifest.json';cfg=json.loads(p.read_text(encoding='utf-8'));cfg['product']={'recommended':'Example','role':'excluded','resolution':'user_confirmed','authorization_reference':'user message','official_source':'https://example.com','verified_date':'2026-09-07'};save(p,cfg);self.assertFalse(validate(self.run)['publication_ready'])
     def test_all_article_types_use_their_contract(self):
         for kind in ['how_to','top_evaluation','vs','general_topic','alternatives','what_is_specs']:
             with tempfile.TemporaryDirectory() as tmp:

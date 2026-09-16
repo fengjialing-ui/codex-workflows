@@ -113,11 +113,21 @@ def validate(package):
         for rank,row in rows:
             if not re.search(r'https?://[^\s|]+',row): errors.append('SERP URL missing at rank '+rank)
         if not cfg.get('serp_query') or not cfg.get('serp_market') or not cfg.get('serp_capture_date'): errors.append('SERP query/market/capture date missing')
+        route=cfg.get('route_evidence',{})
+        for field in ['dominant_intent','selected_type_reason','serp_page_type_distribution','rejected_types']:
+            if not route.get(field): errors.append('Route evidence missing '+field)
         product=cfg.get('product',{})
         if product.get('recommended') not in {'none',None,''}:
             if product.get('role') not in PRODUCT_ROLES.get(cfg.get('article_type'),set()): errors.append('Product role is not valid for this article type')
             if product.get('role')=='excluded' and (product.get('resolution')!='user_confirmed' or not product.get('authorization_reference')):
                 errors.append('Recommended product excluded without user confirmation')
+            if product.get('role')=='excluded':
+                realtime=product.get('real_time_official_verification',{})
+                for field in ['checked_at','product_page','official_guide','object_or_format_evidence','catalog_conflict_resolution']:
+                    if not realtime.get(field): errors.append('Excluded product lacks real-time official verification: '+field)
+                for field in ['product_page','official_guide']:
+                    if realtime.get(field) and not str(realtime[field]).startswith('https://'):
+                        errors.append('Excluded product real-time source is not an official URL: '+field)
             if product.get('role')!='excluded':
                 if not str(product.get('official_source','')).startswith('https://') or not product.get('verified_date'):
                     errors.append('Recommended product needs current official evidence')

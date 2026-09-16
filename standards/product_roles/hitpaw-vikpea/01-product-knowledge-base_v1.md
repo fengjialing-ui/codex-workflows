@@ -51,7 +51,7 @@
 - 修复受损文件并不保证恢复全部缺失画面、原音频、元数据或可播放性。
 - “AI generated”“realistic detail”“without trace”等官网营销用语不能升级为客观结果或法定证明。
 - 不得用于移除第三方作者署名、平台归属、版权信息或需要保留证据完整性的标记。
-- 不得把视频产品的功能迁移到图片、PDF、GIF 或非视频对象上。
+- 不得把视频产品的功能迁移到静态图片、PDF、音频或其他未核验对象上。**GIF 不是自动排除项：在判定不支持 GIF 输入、增强或导出前，必须实时检索当前官方 GIF 指南与产品界面证据。** 当前官方 HitPaw GIF 指南描述了导入 GIF、在 Video Enhancer 中预览处理、并选择 GIF 导出的路径；具体模型、批量、分辨率、质量和版本能力仍须按文章日期复核。
 
 ## 5. 产品目录记录（可复制到 Brief）
 
@@ -98,6 +98,8 @@ products:
 | https://www.hitpaw.com/guide/how-to-enhance-a-video.html | Current official guide | Model names, parameter concepts, preview/export flow |
 | https://www.hitpaw.com/guide/hitpaw-vikpea-get-started.html | Current official guide | Current installation, platform and feature-guide route |
 | https://www.hitpaw.com/support/hitpaw-vikpea-faqs.html | Current official FAQ | System support and output-size context |
+| https://www.hitpaw.com/gif-tips/how-to-make-a-gif-for-4k.html | Current official GIF guide | GIF input, enhancement workflow and GIF export path; recheck UI/version at publication |
+| https://www.hitpaw.com/gif-tips/how-to-fix-a-blurry-gif.html | Current official GIF guide | GIF quality-improvement use case and preview/export boundary; not a performance guarantee |
 
 ## 7. Items requiring fresh verification
 

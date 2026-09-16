@@ -8,7 +8,7 @@
 
 - 它是 `prefill_only — verify_and_refresh`，不是可直接复制进正文的结论。
 - `Task Router` 仍决定唯一文章类型；`Research Passport & SERP Analyst` 仍完成当前 SERP 与竞品证据；`Fact & Product Verifier` 仍决定事实与产品可用性。
-- 推荐产品是任务变量，不是 Skill。没有匹配的可验证能力、限制或来源时，产品角色必须为 `excluded`。
+- 推荐产品是任务变量，不是 Skill。没有匹配的可验证能力、限制或来源时，产品角色只能在完成实时官方证据复核后判为 `excluded`；上游材料、Catalog 或历史白皮书不能单独作为排除依据。
 - `agent-reach` 是独立外部研究层，只能在用户明确要求调用 Agent-Reach 时使用；它不会自动安装依赖、读取 Cookie、登录平台或触发其他工作流。
 
 ## 2. 三种接入模式
@@ -62,7 +62,7 @@ return_to: Task Router, Keyword & Intent Planner, Research Passport & SERP Analy
 | 关键词表 | 保留来源、日期、意图和覆盖状态 | 无意图、跨主题、重复、词义不自然或未经市场验证 |
 | 推荐产品 | 有正式 Product Catalog、官方能力与限制证据 | 无法核验、能力不相邻、角色与文章类型不匹配 |
 
-发生冲突时，记录冲突并优先采用当前可验证证据；产品冲突遵守 `AGENTS.md` 的停止与确认规则。
+发生冲突时，记录冲突并优先采用当前可验证证据；若冲突会导致 `excluded`，先检索当前官方产品页、官方指南/帮助中心和对象/格式专页，记录日期与直接证据。只有实时官方证据仍确认不匹配时，产品冲突才遵守 `AGENTS.md` 的停止与确认规则。
 
 ## 6. 打包 Skills 与调用方式
 

@@ -5,10 +5,10 @@
 | Skill | 输入 | 输出 | 失败即回流 |
 | --- | --- | --- | --- |
 | `Research Package Intake`（可选） | 主题、关键词表、上游 SERP 简报/Outline、推荐产品变量 | 接入清单、复用/刷新/冲突判定、待验证项与正式下游输入 | 把上游结论当作事实、路由或产品角色的替代品 |
-| `Task Router` | 主题、主关键词、用户问题、SERP 线索 | 唯一 article type、理由、边界 | 类型无法判定 |
+| `Task Router` | 主题、主关键词、用户问题、SERP 线索 | 唯一 article type、路由证据卡、边界 | 用产品、次级词或商业目标替代主查询意图 |
 | `Keyword & Intent Planner` | 关键词表/主题、市场、语言 | Keyword Map、覆盖状态、主/次意图、排除词 | 关键词没有真实意图或被硬塞 |
 | `Research Passport & SERP Analyst` | 单主题、检索环境 | SERP 前 10、3–5 个正文样本、来源、机会矩阵 | 没有本主题的正文证据 |
-| `Fact & Product Verifier` | Product Catalog、官方资料、测试/案例 | 可用事实、限制、证据等级、待确认项、产品角色候选 | 将未核验信息写成事实 |
+| `Fact & Product Verifier` | Product Catalog、官方资料、测试/案例 | 可用事实、限制、证据等级、待确认项、产品角色候选、实时官方证据复核记录 | 将未核验信息写成事实，或只凭 Catalog/历史资料将产品排除 |
 | `Content Opportunity Planner` | 意图、研究、Type Module | Brief、模块目标、内容差异化、证据回链 | Brief 不能回溯到研究 |
 | `Reference Pattern Analyst`（可选） | 已完成的当前 SERP/竞品研究、外部案例库 | 抽象可用模式、显式排除项、差异化决策与反同质化审计 | 案例预设类型/结构/产品，或复制案例内容 |
 | `Visual Requirements Planner` | 大纲、用户场景、素材 | 图片位置、目的、画面、避免元素、Alt | 只有通用或文字化配图 |
@@ -31,6 +31,8 @@
 每个 Skill 均输出：`name`、`version`、`purpose`、`input`、`evidence`、`output`、`checks`、`failure_conditions`、`return_to`。
 
 Skills 只能输出自己确有证据支持的内容。对产品、价格、测试、社区反馈或时间敏感资料，必须附来源和核验日期；没有证据时返回“研究不完整”，而不是补写看似合理的结论。
+
+当产品可能因对象、格式、版本或模块不匹配而被标为 `excluded` 时，`Fact & Product Verifier` 必须先输出 `real_time_official_verification`：`checked_at`、官方产品页 URL、官方指南/支持页 URL、对象/格式专页 URL（如有）、支持/不支持摘录、Catalog 冲突、结论。只有该记录确认不支持或不相邻，才允许 `excluded`；官方页面相互矛盾时返回 `research_incomplete`，不得假定不支持。
 
 `Research Package Intake` 可以调用仓库中打包的 `article-search-and-outline`，并且仅在用户明确要求 Agent-Reach 时调用 `agent-reach`。它不能调用、替换或重命名用户的其他 SEO、内容或 GEO Skill；推荐产品永远是任务变量，必须继续经过 `Fact & Product Verifier` 和 Type Module 的角色判定。
 

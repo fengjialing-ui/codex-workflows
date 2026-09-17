@@ -6,7 +6,6 @@
 
 | Product | Directory | Primary object | Current evidence state |
 | --- | --- | --- | --- |
-| WatermarkGemini | `watermarkgemini/` | image | verified / MVP boundary recorded |
 | HitPaw VikPea | `hitpaw-vikpea/` | video | partially_verified; dynamic fields require fresh official verification |
 | HitPaw FotorPea | `hitpaw-fotorpea/` | image | partially_verified; dynamic fields require fresh official verification |
 

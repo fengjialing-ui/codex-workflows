@@ -28,10 +28,10 @@ def redact(value):
     return value
 
 
-def fetch(query, location, country, language, limit, timeout, api_key):
+def fetch(query, location, country, language, limit, timeout, api_key, start=0):
     params = {
         "engine": "google", "q": query, "location": location, "gl": country,
-        "hl": language, "num": limit, "device": "desktop", "no_cache": "true",
+        "hl": language, "num": limit, "start": start, "device": "desktop", "no_cache": "true",
         "api_key": api_key,
     }
     request = Request(f"{ENDPOINT}?{urlencode(params)}", headers={"User-Agent": "codex-workflows-serp-fallback/1.0"})
@@ -39,18 +39,18 @@ def fetch(query, location, country, language, limit, timeout, api_key):
         return json.loads(response.read().decode("utf-8"))
 
 
-def markdown_report(payload, query, location, country, language):
+def markdown_report(payload, results, query, location, country, language):
     captured = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     metadata = payload.get("search_metadata", {})
     parameters = payload.get("search_parameters", {})
     rows = []
-    for result in payload.get("organic_results", []):
-        position = result.get("position")
+    seen = set()
+    for result in results:
         title = str(result.get("title", "")).replace("|", "\\|")
         link = result.get("link", "")
-        if isinstance(position, int) and title and link:
-            rows.append((position, title, link))
-    rows.sort(key=lambda item: item[0])
+        if title and link and link not in seen:
+            seen.add(link)
+            rows.append((title, link))
     lines = [
         "# SERP 与竞品分析（SerpApi 原始结果）", "",
         "> 此文件是实时 Google 自然结果清单，不是完整研究通过记录。必须继续完成 3–5 篇正文深读、页面类型人工复核、机会矩阵与事实核验。",
@@ -61,7 +61,7 @@ def markdown_report(payload, query, location, country, language):
         "- 来源：SerpApi Google Search API（`engine=google`，`no_cache=true`，desktop）", "",
         "| Natural rank | Title | URL | Page type |", "| --- | --- | --- | --- |",
     ]
-    for position, title, link in rows:
+    for position, (title, link) in enumerate(rows[:10], start=1):
         lines.append(f"| {position} | {title} | {link} | Unclassified — manual deep read required |")
     if len(rows) < 10:
         lines.extend(["", f"> 警告：仅返回 {len(rows)} 条有效自然结果；不可据此通过 Top 10 SERP 闸门。"])
@@ -86,6 +86,16 @@ def main():
         return 2
     try:
         payload = fetch(args.query, args.location, args.gl, args.hl, args.num, args.timeout, api_key)
+        results = list(payload.get("organic_results", []))
+        pages = {"page_1": payload}
+        # Google can show fewer than ten organic cards on page one when rich-result
+        # modules take space. Continue at offset 10 to complete the organic Top 10.
+        if len(results) < 10:
+            continuation = fetch(args.query, args.location, args.gl, args.hl, args.num, args.timeout, api_key, start=10)
+            if continuation.get("error") or continuation.get("search_metadata", {}).get("status") == "Error":
+                raise URLError(continuation.get("error", "SerpApi continuation search failed"))
+            pages["page_2"] = continuation
+            results.extend(continuation.get("organic_results", []))
     except HTTPError as exc:
         print(json.dumps({"status": "blocked", "error": f"SerpApi HTTP {exc.code}; check key, quota, and outbound access."}, ensure_ascii=False), file=sys.stderr)
         return 3
@@ -99,9 +109,9 @@ def main():
         print(json.dumps({"status": "blocked", "error": str(payload.get("error", "SerpApi returned a failed search"))}, ensure_ascii=False), file=sys.stderr)
         return 6
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    (args.output_dir / "serpapi-google-response.json").write_text(json.dumps(redact(payload), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (args.output_dir / "03_SERP与竞品分析.md").write_text(markdown_report(payload, args.query, args.location, args.gl, args.hl), encoding="utf-8")
-    print(json.dumps({"status": "fetched", "organic_results": len(payload.get("organic_results", [])), "output_dir": str(args.output_dir)}, ensure_ascii=False))
+    (args.output_dir / "serpapi-google-response.json").write_text(json.dumps(redact(pages), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (args.output_dir / "03_SERP与竞品分析.md").write_text(markdown_report(payload, results, args.query, args.location, args.gl, args.hl), encoding="utf-8")
+    print(json.dumps({"status": "fetched", "organic_results": len({item.get("link") for item in results if item.get("link")}), "output_dir": str(args.output_dir)}, ensure_ascii=False))
     return 0
 
 
